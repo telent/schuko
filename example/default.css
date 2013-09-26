@@ -1,1 +1,13 @@
 h1 { color: blue ; }
+div#content {
+    position: relative;
+    left: 0px;
+    top: 0px;
+}
+
+div#content div {
+    position: absolute;
+    opacity: 1;
+    left: 0px;
+    top: 0px;
+}

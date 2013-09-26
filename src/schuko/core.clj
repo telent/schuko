@@ -49,14 +49,15 @@
           {:type "text/javascript"
            :src "resources/public/js/main.js"}])]
       [:body
-       [:script "console.log('hello literal')"]
-       [:div {:id :content}]]
+       [:div {:id :content}
+        [:div {:class :front}]
+        [:div {:class :back}]]]
       (apply vector :script {:id :everything :type "text/html"}
              h)])
   ([h] (top-and-tail h true)))
 
 ;; for test purposes
-(defn energize [fn]
+(defn energize []
   (spit "out.html"
         (hiccup/html
          (top-and-tail (parse-hiccup-file "example/sample.md") false))))

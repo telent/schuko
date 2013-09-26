@@ -1,6 +1,6 @@
 ; -*- clojure -*- mode
 (ns schuko.events)
-  
+
 (defn by-id [id]
   (.getElementById js/document (name id)))
 
@@ -15,7 +15,7 @@
   ISeqable
   (-seq [array] (array-seq array 0)))
 
-;;; the *real* initial value for all-slides has to be done when 
+;;; the *real* initial value for all-slides has to be done when
 ;;; document has loaded, because we get it by grovelling the DOM
 (def all-slides (atom []))
 (defn get-all-slides []
@@ -23,15 +23,23 @@
     (set! (.-innerHTML el) (.-innerHTML (by-id :everything)))
     (seq (.querySelectorAll el "div.slide"))))
 
+(defn swap-nodes [front back effect]
+  (set! (-> back .-style .-opacity) "0.2")
+  (set! (-> front .-style .-opacity) "1")
+  (set! (.-className front) "front")
+  (set! (.-className back) "back"))
+
 (def current-slide (atom 0))
 (add-watch
- current-slide :key 
+ current-slide :key
  (fn [key ref old-state state]
-   (let [portal (by-id :content)]
-     (.log js/console (pr-str "showing slide " state))
-     (set! (.-innerHTML portal) (.-innerHTML (nth @all-slides state)))
+   (let [front (first (by-selector "div#content .front"))
+         back (first (by-selector "div#content .back"))]
+     (.log js/console (pr-str "showing slide " state front back))
+     (set! (.-innerHTML back) (.-innerHTML (nth @all-slides state)))
+     (swap-nodes back front :fade)
      )))
- 
+
 (defn key-handler [e]
   (let [code (.-keyCode e)]
     (case code
@@ -43,7 +51,7 @@
   (let [slides (get-all-slides)]
     (swap! all-slides concat slides)
     (swap! current-slide identity 1)
-    ) 
+    )
   (.addEventListener js/document "keyup" key-handler))
 
 (set! (.-onload js/window) ready)
