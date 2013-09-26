@@ -5,7 +5,6 @@ Text
 * bullets
 * bullets are fun
 
--------
 
 # slide two
 
@@ -16,7 +15,6 @@ Text
 (defn foo [x] (* 2 x))
 ```
 
-----
 
 # slide three
 
