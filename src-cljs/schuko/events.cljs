@@ -24,8 +24,13 @@
     (seq (.querySelectorAll el "div.slide"))))
 
 (defn swap-nodes [front back effect]
-  (set! (-> back .-style .-opacity) "0.2")
-  (set! (-> front .-style .-opacity) "1")
+  (case effect
+    :fade
+    (do
+      (set! (-> back .-style .-opacity) "0")
+      (set! (-> front .-style .-opacity) "1")
+      (set! (-> front .-style .-transition) "opacity 1s linear 500ms")
+      (set! (-> back .-style .-transition) "opacity 1s ease")))
   (set! (.-className front) "front")
   (set! (.-className back) "back"))
 
