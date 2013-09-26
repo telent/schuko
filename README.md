@@ -1,6 +1,11 @@
 # schuko
 
-A Clojure library designed to ... well, that part is up to you.
+showoff-style markdown->html presentation software, in clojure(script)
+
+The name is from Wikipedia-assisted word association starting with "Powerpoint": 
+> "Schuko" /ˈʃuːkoʊ/ is the colloquial name for a system of AC power plugs and sockets that is defined as "CEE 7/4".
+
+Early days yet: prepare to be unimpressed.
 
 ## Usage
 
