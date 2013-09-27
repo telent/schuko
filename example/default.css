@@ -11,3 +11,8 @@ div#content div {
     left: 0px;
     top: 0px;
 }
+
+div#content div.wipe {
+    background-color: green;
+    transition: height 500ms ease, width 500ms ease;
+}
