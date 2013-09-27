@@ -67,8 +67,10 @@
           (set! (-> curtain .-style .-width) "0px")
 
           (and (= (.-clientHeight curtain) 0) (= (.-clientWidth curtain) 0))
-          (.removeChild parent curtain))
-         ))))
+          (let [p (.-parentNode curtain)]
+            ;; don't try to remove > once
+            (and p (.removeChild p curtain)))
+          )))))
   (set! (.-className front) "front")
   (set! (.-className back) "back"))
 
