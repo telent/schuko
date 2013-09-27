@@ -12,6 +12,7 @@ Early days yet: prepare to be unimpressed.
 ```
 $ lein deps
 $ lein compile
+$ lein cljsbuild once
 $ lein uberjar
 $ java -jar target/schuko-0.1.0-SNAPSHOT-standalone.jar input.md output.html
 ```
