@@ -33,11 +33,11 @@ previous slide
 ## TODO
 
 * CLJS cleanup - it's currently very imperative
-* more transitions
+* more transition effects
+* some syntax in the input file for choosing the transition effect
 * user-specified styles
 * less ugly default styles
 * test on some different browsers
-
 
 ## License
 
