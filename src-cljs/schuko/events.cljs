@@ -1,5 +1,6 @@
 ; -*- clojure -*- mode
-(ns schuko.events)
+(ns schuko.events
+  (:require [clojure.string :as string]))
 
 (defn by-id [id]
   (.getElementById js/document (name id)))
@@ -11,6 +12,20 @@
 
 (defn by-selector [selector]
   (seq (.querySelectorAll js/document selector)))
+
+(defn add-class [el class]
+  (let [c (.-className el)
+        classes (set (string/split c #" +"))]
+    (if (contains? classes class)
+      c
+      (set! (.-className el) (string/join " " (conj classes class))))))
+
+(defn remove-class [el class]
+  (let [c (.-className el)
+        classes (set (string/split c #" +"))]
+    (if (contains? classes class)
+      (set! (.-className el) (string/join " " (disj classes class)))
+      c)))
 
 (defn remove-node [node]
   (let [parent (.-parentNode node)]
