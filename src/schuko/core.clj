@@ -50,8 +50,8 @@
            :src "resources/public/js/main.js"}])]
       [:body
        [:div {:id :content}
-        [:div {:class :front}]
-        [:div {:class :back}]]]
+        [:div {:class :current}]
+        ]]
       (apply vector :script {:id :everything :type "text/html"}
              h)])
   ([h] (top-and-tail h true)))

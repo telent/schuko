@@ -93,21 +93,29 @@
         (remove-node curtain)
         )))))
 
-(defn swap-nodes [front back effect]
-  (swap-effect front back effect)
-  (set! (.-className front) "front")
-  (set! (.-className back) "back"))
+(defn swap-to [front back effect]
+  (remove-class back "current")
+  (add-class back "old")
+  (add-class front "current")
+  (swap-effect front back effect))
+
+(defn show-nth-slide [n]
+  (let [old-slide (first (by-selector "div#content div.current"))
+        older-slides (by-selector "div#content div.old")
+        new-slide (.createElement js/document "div")
+        parent (.-parentNode old-slide)]
+    (doall (map remove-node older-slides))
+    (set! (.-innerHTML new-slide) (.-innerHTML (nth @all-slides n)))
+    (.appendChild parent new-slide)
+    ;; XXX removing this call to get-style, when the effect is fade,
+    ;; in FF22.0, causes the new slide to be displayed instantly instead of
+    ;; having the transition applied.  I do not understand why.
+    (get-style old-slide "height")
+    (swap-to new-slide old-slide :fade)))
 
 (def current-slide (atom 0))
 (add-watch
- current-slide :key
- (fn [key ref old-state state]
-   (let [front (first (by-selector "div#content .front"))
-         back (first (by-selector "div#content .back"))]
-     (.log js/console (pr-str "showing slide " state front back))
-     (set! (.-innerHTML back) (.-innerHTML (nth @all-slides state)))
-     (swap-nodes back front :wipe)
-     )))
+ current-slide :key (fn [key ref old-state state] (show-nth-slide state)))
 
 (defn key-handler [e]
   (let [code (.-keyCode e)]
