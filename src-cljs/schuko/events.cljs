@@ -55,12 +55,19 @@
     (set! (-> back .-style .-opacity) "0")
     (set! (-> front .-style .-opacity) "1")))
 
+(defmethod swap-effect :fliph [now prev effect & [duration]]
+  (let [duration (or duration 2000)]
+    (set! (-> prev .-style .-transition)
+          (format "transform %dms ease-in" duration ))
+    (add-class prev "fliph")
+    (set! (-> now .-style .-opacity) "1")))
+
 (defmethod swap-effect :wipe [front back effect]
   ;; put a solid div in the top left corner in front of picture,
   ;; grow it to cover the whole div, swap front and back, shrink
   (let [curtain (.createElement js/document "div")
         parent (.-parentNode front)]
-    (set! (.-className curtain) "wipe")
+    (add-class curtain "wipe")
     (.appendChild parent curtain)
     (set! (-> curtain .-style .-width) "0px")
     (set! (-> curtain .-style .-height) "0px")
@@ -111,7 +118,7 @@
     ;; in FF22.0, causes the new slide to be displayed instantly instead of
     ;; having the transition applied.  I do not understand why.
     (get-style old-slide "height")
-    (swap-to new-slide old-slide :fade)))
+    (swap-to new-slide old-slide :fliph)))
 
 (def current-slide (atom 0))
 (add-watch
