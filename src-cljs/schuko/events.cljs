@@ -64,11 +64,23 @@
   (set! (-> now .-style .-transform) "rotateY(-180deg)")
   (set! (-> prev .-style .-transform) "rotateY(0deg)")
   (reflow-dom)
-  (add-class prev "fliph")
-  (add-class now "fliph")
+  (add-class prev "flip")
+  (add-class now "flip")
   (set! (-> now .-style .-transform) "rotateY(0deg)")
   (set! (-> prev .-style .-transform) "rotateY(180deg)")
   (set! (-> now .-style .-opacity) "1"))
+
+(defmethod swap-effect :flipv [now prev effect]
+  (set! (-> now .-style .-transform) "rotateX(-180deg)")
+  (set! (-> prev .-style .-transform) "rotateX(0deg)")
+  (reflow-dom)
+  (add-class prev "flip")
+  (add-class now "flip")
+  (set! (-> now .-style .-transform) "rotateX(0deg)")
+  (set! (-> prev .-style .-transform) "rotateX(180deg)")
+  (set! (-> now .-style .-opacity) "1"))
+
+
 
 (defmethod swap-effect :wipe [front back effect]
   ;; put a solid div in the top left corner in front of picture,
