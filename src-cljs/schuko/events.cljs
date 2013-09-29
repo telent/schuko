@@ -110,13 +110,12 @@
 
 (defn swap-to [front back effect]
   (remove-class back "current")
-  (add-class back "old")
   (add-class front "current")
   (swap-effect front back effect))
 
 (defn show-nth-slide [n]
   (let [old-slide (first (by-selector "div#content div.current"))
-        older-slides (by-selector "div#content div.old")
+        older-slides (by-selector "div#content div:not(.current)")
         new-slide (.createElement js/document "div")
         parent (.-parentNode old-slide)]
     (doall (map remove-node older-slides))
