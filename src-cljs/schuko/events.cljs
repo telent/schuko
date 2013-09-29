@@ -27,6 +27,10 @@
       (set! (.-className el) (string/join " " (disj classes class)))
       c)))
 
+(defn get-style [el name]
+  (let [styles (.getComputedStyle js/window el)]
+    (aget styles name)))
+
 (defn remove-node [node]
   (let [parent (.-parentNode node)]
     (and parent (.removeChild parent node))))
