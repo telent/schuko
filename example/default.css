@@ -17,7 +17,7 @@ div#content div {
     top: 0px;
     width: 100%;
     height: 100%;
-    background-color: #ddd;
+    background-color: #eee;
 }
 
 div#content div.wipe {
@@ -27,7 +27,6 @@ div#content div.wipe {
 }
 
 div#content div.fliph {
-  transform: rotateY(180deg) rotateZ(-5deg);
   backface-visibility: hidden;
-  z-index: 1;
+  transition: 3s ease;
 }
