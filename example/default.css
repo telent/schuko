@@ -22,8 +22,8 @@ div#content div {
 
 div#content div.wipe {
     opacity: 1;
-    background-color: green;
-    transition: height 1000ms linear 1s, width 1000ms ease 1s;
+    background-color: grey;
+    transition: height 1000ms ease , width 1000ms ease ;
 }
 
 div#content div.fliph {

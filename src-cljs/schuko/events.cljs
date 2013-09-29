@@ -75,38 +75,36 @@
   ;; grow it to cover the whole div, swap front and back, shrink
   (let [curtain (.createElement js/document "div")
         parent (.-parentNode front)]
-    (add-class curtain "wipe")
     (.appendChild parent curtain)
     (set! (-> curtain .-style .-width) "0px")
     (set! (-> curtain .-style .-height) "0px")
     (set! (-> curtain .-style .-zIndex) "99")
-    (set! (-> curtain .-style .-width)
-          (max (.-clientWidth front) (.-clientWidth back)))
-    (set! (-> curtain .-style .-height)
-          (max (.-clientHeight front) (.-clientHeight back)))
+    (set! (-> back .-style .-zIndex) "1")
+    (set! (-> front .-style .-zIndex) "0")
+    (set! (-> front .-style .-opacity) "1")
+    (add-class curtain "wipe")
     (.addEventListener
      curtain "transitionend"
      (fn [e]
        ;; this gets called four times: when the height reaches max,
        ;; when the width reaches max, when the height reaches 0,
        ;; when the width reaches 0
-       (.log js/console  (pr-str [(.-propertyName e)
-                                  (.-clientWidth curtain)
-                                  (.-clientHeight curtain)]))
+       (when (and (= (.-propertyName e) "height")
+                  (> (.-clientHeight curtain) 0))
+         (set! (-> front .-style .-zIndex) "2")
+         (reflow-dom)
+         (set! (-> curtain .-style .-height) "0px"))
+       (when (and (= (.-propertyName e) "width")
+                  (> (.-clientWidth curtain) 0))
+         (set! (-> curtain .-style .-width) "0px")
+         (reflow-dom))))
 
-       (cond
-        (and (= (.-propertyName e) "height") (> (.-clientHeight curtain) 0))
-        (do
-          (set! (-> front .-style .-opacity) "1")
-          (set! (-> back .-style .-opacity) "0")
-          (set! (-> curtain .-style .-height) "0px"))
-
-        (and (= (.-propertyName e) "width") (> (.-clientWidth curtain) 0))
-        (set! (-> curtain .-style .-width) "0px")
-
-        (and (= (.-clientHeight curtain) 0) (= (.-clientWidth curtain) 0))
-        (remove-node curtain)
-        )))))
+    (reflow-dom)
+    (set! (-> curtain .-style .-width)
+          (max (.-clientWidth front) (.-clientWidth back)))
+    (set! (-> curtain .-style .-height)
+          (max (.-clientHeight front) (.-clientHeight back)))
+    ))
 
 (defn swap-to [front back effect]
   (remove-class back "current")
