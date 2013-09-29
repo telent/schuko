@@ -7,13 +7,13 @@
 (defn by-tag [tag]
   (seq (.getElementsByTagName js/document (name tag))))
 
-(defn by-selector [selector]
-  (seq (.querySelectorAll js/document selector)))
-
 ;;; may not work on opera? http://dev.clojure.org/jira/browse/CLJS-120
 (extend-type js/NodeList
   ISeqable
   (-seq [array] (array-seq array 0)))
+
+(defn by-selector [selector]
+  (seq (.querySelectorAll js/document selector)))
 
 (defn remove-node [node]
   (let [parent (.-parentNode node)]
