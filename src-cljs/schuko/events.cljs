@@ -31,6 +31,10 @@
   (let [styles (.getComputedStyle js/window el)]
     (aget styles name)))
 
+(defn reflow-dom []
+  (aget (.getComputedStyle js/window (first (by-selector "body")))
+        "height"))
+
 (defn remove-node [node]
   (let [parent (.-parentNode node)]
     (and parent (.removeChild parent node))))
@@ -52,6 +56,7 @@
           (format "opacity %dms linear %dms" duration delay))
     (set! (-> back .-style .-transition)
           (format "opacity %dms linear" duration))
+    (reflow-dom)
     (set! (-> back .-style .-opacity) "0")
     (set! (-> front .-style .-opacity) "1")))
 
@@ -114,10 +119,6 @@
     (doall (map remove-node older-slides))
     (set! (.-innerHTML new-slide) (.-innerHTML (nth @all-slides n)))
     (.appendChild parent new-slide)
-    ;; XXX removing this call to get-style, when the effect is fade,
-    ;; in FF22.0, causes the new slide to be displayed instantly instead of
-    ;; having the transition applied.  I do not understand why.
-    (get-style old-slide "height")
     (swap-to new-slide old-slide :fliph)))
 
 (def current-slide (atom 0))
