@@ -15,6 +15,10 @@
   ISeqable
   (-seq [array] (array-seq array 0)))
 
+(defn remove-node [node]
+  (let [parent (.-parentNode node)]
+    (and parent (.removeChild parent node))))
+
 ;;; the *real* initial value for all-slides has to be done when
 ;;; document has loaded, because we get it by grovelling the DOM
 (def all-slides (atom []))
@@ -72,9 +76,7 @@
         (set! (-> curtain .-style .-width) "0px")
 
         (and (= (.-clientHeight curtain) 0) (= (.-clientWidth curtain) 0))
-        (let [p (.-parentNode curtain)]
-          ;; don't try to remove > once
-          (and p (.removeChild p curtain)))
+        (remove-node curtain)
         )))))
 
 (defn swap-nodes [front back effect]
