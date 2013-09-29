@@ -43,16 +43,14 @@
     (set! (.-innerHTML el) (.-innerHTML (by-id :everything)))
     (seq (.querySelectorAll el "div.slide"))))
 
-
-
 (defmulti swap-effect (fn [front back effect] effect))
 
 (defmethod swap-effect :fade [front back effect & [duration]]
   (let [duration (or duration 1000)
-        delay (int (/ duration 2))]
+        delay (int (* duration 0.3))]
     (set! (-> front .-style .-transition)
           (format "opacity %dms linear %dms" duration delay))
-    (set! (-> front .-style .-transition)
+    (set! (-> back .-style .-transition)
           (format "opacity %dms linear" duration))
     (set! (-> back .-style .-opacity) "0")
     (set! (-> front .-style .-opacity) "1")))
