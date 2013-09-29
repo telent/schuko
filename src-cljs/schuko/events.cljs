@@ -4,9 +4,6 @@
 (defn by-id [id]
   (.getElementById js/document (name id)))
 
-(defn by-tag [tag]
-  (seq (.getElementsByTagName js/document (name tag))))
-
 ;;; may not work on opera? http://dev.clojure.org/jira/browse/CLJS-120
 (extend-type js/NodeList
   ISeqable
