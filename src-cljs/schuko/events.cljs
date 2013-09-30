@@ -80,7 +80,16 @@
   (set! (-> prev .-style .-transform) "rotateX(180deg)")
   (set! (-> now .-style .-opacity) "1"))
 
-
+(defmethod swap-effect :spin [now prev effect]
+  ;; this effect was discovered accidentally
+  (set! (-> now .-style .-transform) "rotateX(-180deg) rotateY(-180deg")
+  (set! (-> prev .-style .-transform) "rotateX(0deg) rotateY(0deg)")
+  (reflow-dom)
+  (add-class prev "flip")
+  (add-class now "flip")
+  (set! (-> now .-style .-transform) "rotateY(0deg) rotateX(0deg)")
+  (set! (-> prev .-style .-transform) "rotateY(180deg) rotateX(180deg)")
+  (set! (-> now .-style .-opacity) "1"))
 
 (defmethod swap-effect :wipe [front back effect]
   ;; put a solid div in the top left corner in front of picture,
@@ -131,7 +140,7 @@
     (doall (map remove-node older-slides))
     (set! (.-innerHTML new-slide) (.-innerHTML (nth @all-slides n)))
     (.appendChild parent new-slide)
-    (swap-to new-slide old-slide :fliph)))
+    (swap-to new-slide old-slide :flipv)))
 
 (def current-slide (atom 0))
 (add-watch
@@ -144,11 +153,9 @@
       8 (swap! current-slide dec)
       (.log js/console (pr-str ["unrecognised key" code @current-slide])))))
 
-(defn ^:export ready []
+(defn ^:export run-on-ready []
   (let [slides (get-all-slides)]
     (swap! all-slides concat slides)
     (swap! current-slide identity 1)
     )
   (.addEventListener js/document "keyup" key-handler))
-
-(set! (.-onload js/window) ready)
