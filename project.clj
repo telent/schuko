@@ -2,6 +2,7 @@
   :plugins [[lein-cljsbuild "0.3.3"]]
   :description "Powerpoint, Euro style"
   :url "http://ww.telent.net"
+  :hooks [leiningen.cljsbuild]
   :license {:name "Eclipse Public License"
             :url "http://www.eclipse.org/legal/epl-v10.html"}
   :cljsbuild {

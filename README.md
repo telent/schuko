@@ -1,7 +1,7 @@
 # Schuko
 
 Showoff-style Markdown->HTML presentation software, in
-clojure(script).  It generates a static HTML file which you can host
+Clojure(script).  It generates a static HTML file which you can host
 anywhere, and uses client-side Javascript and CSS for navigation and
 page flipping transitions.
 
@@ -15,7 +15,6 @@ Early days yet: prepare to be unimpressed.
 ```
 $ lein deps
 $ lein compile
-$ lein cljsbuild once
 $ lein uberjar
 $ java -jar target/schuko-0.1.0-SNAPSHOT-standalone.jar input.md output.html
 ```
