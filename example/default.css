@@ -26,7 +26,7 @@ div#content div.wipe {
     transition: height 1000ms ease , width 1000ms ease ;
 }
 
-div#content div.fliph {
+div#content div.flip {
   backface-visibility: hidden;
   transition: 3s ease;
 }
