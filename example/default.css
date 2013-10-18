@@ -1,13 +1,15 @@
-h1 { 
-    color: blue ; 
-    border-bottom: 1px solid grey;
+body {
+    font-family: Helvetica, Arial, sans-serif;
+    font-size: 2em;
+    color: white;
 }
+
 div#content {
     position: relative;
     left: 0px;
     top: 0px;
     width: 800px;
-    height: 400px;
+    height: 600px;
 }
 
 div#content div {
@@ -17,8 +19,19 @@ div#content div {
     top: 0px;
     width: 100%;
     height: 100%;
-    background-color: #eee;
+    padding: 1em;
+    background-color: #339;
 }
+
+div#content div h1 { 
+    color: yellow ; 
+    text-shadow: 1px 1px 3px white;
+    font-weight: bold;
+    padding: -0.8em 0.5em;
+    margin: 0;
+    border-bottom: 1px solid #227;
+}
+
 
 div#content div.wipe {
     opacity: 1;
